@@ -20,7 +20,7 @@ public class Utente extends Thread{
     public void run() {
         try {
             listaEventi.Prenota(nomeEvento, postiPrenotare);
-            Thread.sleep(1000);
+            Thread.sleep(0);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }catch (IllegalArgumentException e) {
