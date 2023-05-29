@@ -1,0 +1,30 @@
+{
+    "version":"0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "App",
+            "request": "launch",
+            "mainClass": "App",
+            "projectName": "LABO_4_2_b78c9aec"
+        },
+        {
+            "type": "java",
+            "name": "Launch Server",
+            "request": "launch",
+            "mainClass": "server.ServerMain"
+        },
+        {
+            "type": "java",
+            "name": "Launch Client",
+            "request": "launch",
+            "mainClass": "client.ClientMain"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "Project",
+            "configurations": ["Launch Server", "Launch Client"]
+        }
+    ]
+}
