@@ -1,12 +1,16 @@
 package server.logic;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Iterator;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import javax.swing.SwingUtilities;
 
 import eventi.Evento;
+import inteface.ClientInterface;
 import inteface.ServerInterface;
 import server.database.Database;
 
@@ -14,6 +18,9 @@ public class Server implements ServerInterface{
     
     /* Strutture dati */
     private ConcurrentHashMap<String, Evento> eventi;
+
+    /* Client Connessi */
+    private List<ClientInterface> clients;
     
     /* Variabili */
     private Database database;
@@ -28,6 +35,7 @@ public class Server implements ServerInterface{
             eventi = database.getEventi();
             status = new AtomicBoolean(true);
             info = "Server avviato con successo!";
+            clients = new ArrayList<>();
         } catch (Exception e) {
             status = new AtomicBoolean(false);
             info = "Errore nell'avvio del Server!";
@@ -102,6 +110,41 @@ public class Server implements ServerInterface{
         }
     }
 
+    /* Il server Registra i client per il callBack */
+    public synchronized void registerCallBack(ClientInterface callbackClient) throws RemoteException {
+        if(!clients.contains(callbackClient)){
+            clients.add(callbackClient);
+            System.out.println("Client registrato per avere CallBack!");
+        }
+    }
+
+    /* Il Server rimuove la Registrazione per i CallBack */
+    public synchronized void unregisterCallBack(ClientInterface callbackClient) throws RemoteException {
+        if(clients.remove(callbackClient))
+            System.out.println("Client rimosso dai CallBack!");
+        else
+            System.out.println("Errore nell rimozione del Client dalle CallBack!");
+    }
+
+    /* Il Server effettua le callBack ai Client in Lista */
+    public synchronized void doCallbacks() throws RemoteException {
+        System.out.println("Inizio delle Callback..");
+        
+        Iterator<ClientInterface> iter = clients.iterator();
+
+        while(iter.hasNext()){
+            ClientInterface client = iter.next();
+            client.updateEventiPanel();
+        }
+
+        System.out.println("Fine Callback");
+    }
+
+    public void setPrenotazioneNotify(String text) throws RemoteException{
+        serverGUI.setInfoText(text);
+        doCallbacks();
+    }
+
     /* Getters and Setters */
     public ServerGUI getFrame() {
         return serverGUI;
@@ -134,5 +177,4 @@ public class Server implements ServerInterface{
     public void setInfo(String info) {
         this.info = info;
     }
-
 }

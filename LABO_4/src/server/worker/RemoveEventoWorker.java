@@ -1,5 +1,6 @@
 package server.worker;
 
+import java.rmi.RemoteException;
 import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
@@ -33,22 +34,26 @@ public class RemoveEventoWorker extends SwingWorker<Boolean, Void>{
     
     @Override
     protected void done(){
-        try{
-            if(!get()){
+        try {
+            if (!get()) {
                 server.getFrame().setInfoText("<font color=\"red\">Evento " +nomeEvento+ " non presente!</font>");
                 return;
-            }else{
-                server.getFrame().setInfoText("<font color=\"green\">Evento " +nomeEvento+ " rimosso con successo!</font>");
-                
-                try {
-                    server.updateEventiPanel();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
             }
-        }catch (InterruptedException | ExecutionException e) {
-			server.getFrame().setInfoText("<font color=\"red\">Room Not Removed!</font>");
-			e.printStackTrace();
+        } catch (InterruptedException | ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        server.getFrame().setInfoText("<font color=\"green\">Evento " +nomeEvento+ " rimosso con successo!</font>");
+        try {
+            server.doCallbacks();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
+        
+        try {
+            server.updateEventiPanel();
+        }catch (RemoteException e){
+            e.printStackTrace();
         }
     }
 }

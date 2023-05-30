@@ -106,6 +106,7 @@ public class ServerMain {
         sem.release();
         System.exit(0);
     }
+
     /* Controlla se il Database è attivo */
     private static String checkDatabase() throws SQLException{
         Connection conn = DriverManager.getConnection(URL);
@@ -116,7 +117,6 @@ public class ServerMain {
             return "<tr><td>Database:</td><td> ERROR</td>";
         }
     }
-
 
     /* Ottiene la data attuale */
     private static String getDate() {

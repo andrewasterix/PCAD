@@ -3,6 +3,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Data",
+            "request": "launch",
+            "mainClass": "data.Data",
+            "projectName": "LABO_4_7da90979"
+        },
+        {
+            "type": "java",
             "name": "App",
             "request": "launch",
             "mainClass": "App",

@@ -20,6 +20,13 @@ public interface ServerInterface extends Remote, Serializable {
     
     public void updateEventiPanel() throws RemoteException;
 
+    public void registerCallBack(ClientInterface callbackClient) throws RemoteException;
+
+    public void unregisterCallBack(ClientInterface callbackClient) throws RemoteException;
+
+    public void setPrenotazioneNotify(String text) throws RemoteException;
+
+    /* Getters and Setters */
     public ServerGUI getFrame() throws RemoteException;
 
     public void setFrame(ServerGUI serverGUI) throws RemoteException;

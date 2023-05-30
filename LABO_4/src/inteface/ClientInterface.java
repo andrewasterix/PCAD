@@ -7,6 +7,5 @@ import java.rmi.RemoteException;
 public interface ClientInterface extends Remote, Serializable{
     
     public void updateEventiPanel() throws RemoteException;
-
     
 }

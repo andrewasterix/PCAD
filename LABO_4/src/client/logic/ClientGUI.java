@@ -6,6 +6,8 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -43,11 +45,23 @@ public class ClientGUI extends JFrame {
         this.client = client;
         this.client.setFrame(this);
 
+        server.registerCallBack(client);
+        
         setTitle("Client");
         setResizable(false);
         setSize(800, 600);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
+
+        this.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent e) {
+                try {
+                    server.unregisterCallBack(client);
+                } catch (RemoteException e1) {
+                    e1.printStackTrace();
+                }
+		    }
+		});
 
         /* PANNELLO INFOBOX */
         JPanel infoPanel = new JPanel();
@@ -118,6 +132,11 @@ public class ClientGUI extends JFrame {
 
                 if (postiRichiesti.isEmpty() || postiRichiesti.isBlank()) {
                     setInfoText("<font color=\"red\">Inserire il numero di posti liberi</font>");
+                    return;
+                }
+
+                if (!client.getEventi().containsKey(nomeEvento)){
+                    setInfoText("<font color=\"red\">L'Evento " +nomeEvento+ " non è presente!</font>");
                     return;
                 }
 

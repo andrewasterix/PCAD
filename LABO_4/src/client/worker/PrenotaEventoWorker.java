@@ -38,8 +38,7 @@ public class PrenotaEventoWorker extends SwingWorker<Boolean, Void> {
     protected void done() {
         try {
             if (!get()) {
-                server.setInfo("<font color=\"red\">Tentativo di prenotazione ad evento " +nomeEvento+ " non presente!</font>");
-                //server.getFrame().setInfoText("<font color=\"red\">Tentativo di prenotazione ad evento " +nomeEvento+ " non presente!</font>");
+                server.setPrenotazioneNotify("<font color=\"red\">Tentativo di prenotazione ad evento " +nomeEvento+ " non presente!</font>");
                 client.getFrame().setInfoText("<font color=\"red\">Evento " +nomeEvento+ " non presente!</font>");
                 return;
             }
@@ -48,7 +47,7 @@ public class PrenotaEventoWorker extends SwingWorker<Boolean, Void> {
         }
         
         try {
-            server.setInfo("<font color=\"green\">Evento " +nomeEvento+ " prenotato con successo!</font>");
+            server.setPrenotazioneNotify("<font color=\"green\">Evento " +nomeEvento+ " prenotato con successo!</font>");
         } catch (RemoteException e) {
             e.printStackTrace();
         }

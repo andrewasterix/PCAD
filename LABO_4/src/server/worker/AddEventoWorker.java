@@ -45,6 +45,11 @@ public class AddEventoWorker extends SwingWorker<Boolean, Void>{
         }
 
         server.getFrame().setInfoText("<font color=\"green\">Evento " +nomeEvento+ " aggiunto con successo!</font>");
+        try {
+            server.doCallbacks();
+        } catch (RemoteException e) {
+            e.printStackTrace();
+        }
         
         try {
             server.updateEventiPanel();
