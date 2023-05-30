@@ -14,14 +14,14 @@ import inteface.ClientInterface;
 import inteface.ServerInterface;
 import server.database.Database;
 
-public class Server implements ServerInterface{
-    
+public class Server implements ServerInterface {
+
     /* Strutture dati */
     private ConcurrentHashMap<String, Evento> eventi;
 
     /* Client Connessi */
     private List<ClientInterface> clients;
-    
+
     /* Variabili */
     private Database database;
     private ServerGUI serverGUI;
@@ -44,12 +44,13 @@ public class Server implements ServerInterface{
 
     /* Il Server vuole aggiugere un nuovo evento */
     @Override
-    public void addEvento(String nomeEvento, int postiLiberi) throws RemoteException{
+    public void addEvento(String nomeEvento, int postiLiberi) throws RemoteException {
         Evento nuovoEvento = new Evento(nomeEvento, postiLiberi);
-        
-        synchronized(database){
-            if (database.getEventi().containsKey(nomeEvento)) throw new IllegalArgumentException("Si vuole creare un evento con un nome già esistente!");
-            
+
+        synchronized (database) {
+            if (database.getEventi().containsKey(nomeEvento))
+                throw new IllegalArgumentException("Si vuole creare un evento con un nome già esistente!");
+
             try {
                 database.AggiungiEvento(nuovoEvento);
                 eventi.putIfAbsent(nomeEvento, nuovoEvento);
@@ -59,12 +60,30 @@ public class Server implements ServerInterface{
         }
     }
 
+    public void addSeatsEvento(String nomeEvento, int postiLiberi) throws RemoteException {
+        synchronized (database) {
+            if (!database.getEventi().containsKey(nomeEvento))
+                throw new IllegalArgumentException("Si vuole aggiungere posti ad un evento non esistente!");
+            
+            Evento evento = eventi.get(nomeEvento);
+
+            try {
+                database.AggiungiPosti(evento, postiLiberi);
+                evento.aggiungiPosti(postiLiberi);
+                eventi.replace(nomeEvento, evento);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     /* Il Server vuole rimuovere un evento */
     @Override
     public boolean removeEvento(String nomeEvento) {
-        synchronized(database){
-            if (!database.getEventi().containsKey(nomeEvento)) throw new IllegalArgumentException("Si vuole rimuovere un evento non esistente!");
-            
+        synchronized (database) {
+            if (!database.getEventi().containsKey(nomeEvento))
+                throw new IllegalArgumentException("Si vuole rimuovere un evento non esistente!");
+
             Evento evento = eventi.get(nomeEvento);
 
             try {
@@ -80,13 +99,15 @@ public class Server implements ServerInterface{
     /* Il Client prenota un evento */
     @Override
     public boolean prenotaEvento(String nomeEvento, int postiRichiesti) {
-        synchronized(database){
-            if (!database.getEventi().containsKey(nomeEvento)) throw new IllegalArgumentException("Si vuole prenotare un evento non esistente!");
-            
+        synchronized (database) {
+            if (!database.getEventi().containsKey(nomeEvento))
+                throw new IllegalArgumentException("Si vuole prenotare un evento non esistente!");
+
             Evento evento = eventi.get(nomeEvento);
 
             try {
-                if(!evento.prenota(postiRichiesti)) return false;
+                if (!evento.prenota(postiRichiesti))
+                    return false;
                 database.PrenotaPosti(evento, postiRichiesti);
                 eventi.replace(nomeEvento, evento);
             } catch (Exception e) {
@@ -97,9 +118,9 @@ public class Server implements ServerInterface{
     }
 
     /* Il Server aggiorna la visualizzazione della Tabella degli Eventi */
-    public void updateEventiPanel() throws RemoteException{
+    public void updateEventiPanel() throws RemoteException {
 
-        if(SwingUtilities.isEventDispatchThread()){
+        if (SwingUtilities.isEventDispatchThread()) {
             serverGUI.setEventiList(eventi);
         } else {
             SwingUtilities.invokeLater(new Runnable() {
@@ -112,7 +133,7 @@ public class Server implements ServerInterface{
 
     /* Il server Registra i client per il callBack */
     public synchronized void registerCallBack(ClientInterface callbackClient) throws RemoteException {
-        if(!clients.contains(callbackClient)){
+        if (!clients.contains(callbackClient)) {
             clients.add(callbackClient);
             System.out.println("Client registrato per avere CallBack!");
         }
@@ -120,7 +141,7 @@ public class Server implements ServerInterface{
 
     /* Il Server rimuove la Registrazione per i CallBack */
     public synchronized void unregisterCallBack(ClientInterface callbackClient) throws RemoteException {
-        if(clients.remove(callbackClient))
+        if (clients.remove(callbackClient))
             System.out.println("Client rimosso dai CallBack!");
         else
             System.out.println("Errore nell rimozione del Client dalle CallBack!");
@@ -129,10 +150,10 @@ public class Server implements ServerInterface{
     /* Il Server effettua le callBack ai Client in Lista */
     public synchronized void doCallbacks() throws RemoteException {
         System.out.println("Inizio delle Callback..");
-        
+
         Iterator<ClientInterface> iter = clients.iterator();
 
-        while(iter.hasNext()){
+        while (iter.hasNext()) {
             ClientInterface client = iter.next();
             client.updateEventiPanel();
         }
@@ -140,7 +161,7 @@ public class Server implements ServerInterface{
         System.out.println("Fine Callback");
     }
 
-    public void setPrenotazioneNotify(String text) throws RemoteException{
+    public void setPrenotazioneNotify(String text) throws RemoteException {
         serverGUI.setInfoText(text);
         doCallbacks();
     }

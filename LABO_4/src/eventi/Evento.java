@@ -25,7 +25,7 @@ public class Evento implements Remote, Serializable{
     public void aggiungiPosti(int posti) {
         /* Aggiungi posti liberi */
         postiLiberi.addAndGet(posti);
-        System.out.println("Aggiunti " +posti+ " posti a "+ nomeEvento +"!");
+        //System.out.println("Aggiunti " +posti+ " posti a "+ nomeEvento +"!");
     }
 
     /* Prenota un numero di posti per l'evento */
@@ -33,13 +33,13 @@ public class Evento implements Remote, Serializable{
         /* Se ci sono posti liberi prenota */
         if (postiLiberi.get() > 0 && postiLiberi.get() >= posti) {
             postiLiberi.addAndGet(-posti);
-            System.out.println("Prenotazione " +posti+ " per " +nomeEvento+ " effettuata con successo!");
+            //System.out.println("Prenotazione " +posti+ " per " +nomeEvento+ " effettuata con successo!");
             return true;
         } else if(postiLiberi.get() < posti){
-            System.out.println("Prenotazione per " +nomeEvento+ " non effettuata: numero di posti non sufficiente!");
+            //System.out.println("Prenotazione per " +nomeEvento+ " non effettuata: numero di posti non sufficiente!");
             return false;
         } else {
-            System.out.println("Prenotazione per " +nomeEvento+ " non effettuata: posti esauriti!");
+            //System.out.println("Prenotazione per " +nomeEvento+ " non effettuata: posti esauriti!");
             return false;
         }
     }

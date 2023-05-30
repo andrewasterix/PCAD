@@ -130,7 +130,7 @@ public class ClientGUI extends JFrame {
                     return;
                 }
 
-                if (postiRichiesti.isEmpty() || postiRichiesti.isBlank()) {
+                if (postiRichiesti.isEmpty() || postiRichiesti.isBlank() || !postiRichiesti.matches("[0-9]+")) {
                     setInfoText("<font color=\"red\">Inserire il numero di posti liberi</font>");
                     return;
                 }
@@ -140,10 +140,10 @@ public class ClientGUI extends JFrame {
                     return;
                 }
 
-                int postiRichiestiInt = Integer.parseInt(postiRichiesti);
                 if (nomeEvento == null || nomeEvento.equals(""))
                     throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
 
+                int postiRichiestiInt = Integer.parseInt(postiRichiesti);
                 if (client.getEventi().get(nomeEvento).getPostiLiberi() < postiRichiestiInt) {
                     setInfoText("Numero di posti disponibili non sufficiente!\"");;
                     return;

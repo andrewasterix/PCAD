@@ -7,14 +7,14 @@ import javax.swing.SwingWorker;
 
 import server.logic.Server;
 
-public class AddEventoWorker extends SwingWorker<Boolean, Void>{
+public class AddSeatsWorker  extends SwingWorker<Boolean, Void>{
 
     private String nomeEvento;
     private int postiLiberi;
     private Server server;
 
     /* Inizializza il Worker */
-    public AddEventoWorker(String nomeEvento, int postiLiberi, Server server) {
+    public AddSeatsWorker(String nomeEvento, int postiLiberi, Server server) {
         this.nomeEvento = nomeEvento;
         this.postiLiberi = postiLiberi;
         this.server = server;
@@ -29,7 +29,7 @@ public class AddEventoWorker extends SwingWorker<Boolean, Void>{
 
         if (nomeEvento == null || nomeEvento.equals("")) throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
 
-        server.addEvento(nomeEvento, postiLiberi);
+        server.addSeatsEvento(nomeEvento, postiLiberi);
 
         return true;
     }

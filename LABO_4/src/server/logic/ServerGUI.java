@@ -15,6 +15,7 @@ import javax.swing.table.*;
 
 import eventi.Evento;
 import server.worker.AddEventoWorker;
+import server.worker.AddSeatsWorker;
 import server.worker.RemoveEventoWorker;
 
 public class ServerGUI extends JFrame {
@@ -87,7 +88,7 @@ public class ServerGUI extends JFrame {
 
         JButton addButton = new JButton("Aggiungi Evento");
         addButton.setToolTipText("Aggiungi Evento");
-        addButton.setBounds(150, 50, 135, 80);
+        addButton.setBounds(150, 40, 130, 40);
 
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -109,23 +110,22 @@ public class ServerGUI extends JFrame {
                     return;
                 }
 
-                if (postiLiberi.isEmpty() || postiLiberi.isBlank()) {
+                if (postiLiberi.isEmpty() || postiLiberi.isBlank() || !postiLiberi.matches("[0-9]+")) {
                     setInfoText("<font color=\"red\">Inserire il numero di posti liberi</font>");
                     return;
                 }
 
-                int postiLiberiInt = Integer.parseInt(postiLiberi);
                 if (nomeEvento == null || nomeEvento.equals(""))
                     throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
 
+                int postiLiberiInt = Integer.parseInt(postiLiberi);
                 new AddEventoWorker(nomeEvento, postiLiberiInt, server).execute();
             }
         });
 
         JButton removeButton = new JButton("Rimuovi Evento");
-        removeButton.setText("Rimuovi Evento");
         removeButton.setToolTipText("Rimuovi Evento");
-        removeButton.setBounds(290, 50, 135, 80);
+        removeButton.setBounds(290, 63, 130,40);
 
         removeButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,12 +143,50 @@ public class ServerGUI extends JFrame {
             }
         });
 
+        JButton addSeatsButton = new JButton("Aggiungi Posti");
+        addSeatsButton.setToolTipText("Aggiungi Posti");
+        addSeatsButton.setBounds(150, 85, 130, 40);
+
+        addSeatsButton.addActionListener(new ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                String nomeEvento = nomeEventoField.getText().trim();
+                String postiLiberi = numeroPostiField.getText().trim();
+
+                if (nomeEvento.equals("") || nomeEvento.equals("Nome Evento")) {
+                    setInfoText("<font color=\"red\">Inserire il nome dell'Evento</font>");
+                    return;
+                }
+
+                if (postiLiberi.equals("") || postiLiberi.equals("Numero Posti")) {
+                    setInfoText("<font color=\"red\">Inserire il numero di posti liberi</font>");
+                    return;
+                }
+
+                if (nomeEvento.isEmpty() || nomeEvento.isBlank()) {
+                    setInfoText("<font color=\"red\">Inserire il nome dell'Evento</font>");
+                    return;
+                }
+
+                if (postiLiberi.isEmpty() || postiLiberi.isBlank() || !postiLiberi.matches("[0-9]+")) {
+                    setInfoText("<font color=\"red\">Inserire il numero di posti liberi</font>");
+                    return;
+                }
+
+                if (nomeEvento == null || nomeEvento.equals(""))
+                    throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
+
+                int postiLiberiInt = Integer.parseInt(postiLiberi);
+                new AddSeatsWorker(nomeEvento, postiLiberiInt, server).execute();
+            }
+        });
+
         /* Aggiunta al Pannello GESTIONE EVENTI */
         gestioneEventiPanel.add(gestioneEventiLabel);
         gestioneEventiPanel.add(nomeEventoField);
         gestioneEventiPanel.add(numeroPostiField);
         gestioneEventiPanel.add(addButton);
         gestioneEventiPanel.add(removeButton);
+        gestioneEventiPanel.add(addSeatsButton);
 
         /* PANNELLO EVENTI */
         JPanel eventiPanel = new JPanel();

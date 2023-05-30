@@ -1,18 +1,15 @@
-## Getting Started
+# SERVER MULTITHREADED SOCKET
 
-Welcome to the VS Code Java world. Here is a guideline to help you get started to write Java code in Visual Studio Code.
+Per completare larchitettura del nostro sistema di gestione di prenotazione di eventi ci serve ancora il middleware di comunicazione con potenziali clienti collegati in rete.
 
-## Folder Structure
+Nella versione distribuita i client usano comunicazione TCP per inviare le richieste (prenotazione e lista eventi) al server.
 
-The workspace contains two folders by default, where:
+Il server deve avere architettura multithreaded basata su ServerSocket su TCP (vedi lezioni su networking in Java) e deve poter gestire le richieste di prenotazione dei client confinando i socket generati da una richiesta in un task separato.
 
-- `src`: the folder to maintain sources
-- `lib`: the folder to maintain dependencies
+Per quanto riguarda la struttura dati per memorizzare gli eventi: raffinate la soluzione del foglio 2 usando non più metodi sincronizzati ma invece strutture dati concorrenti cercando di parallelizzare se possibile operazioni su eventi indipendenti tra loro.
 
-Meanwhile, the compiled output files will be generated in the `bin` folder by default.
+Associate al programma client una GUI minimale per visualizzare la lista degli eventi e inviare le richieste di prenotazione come nell’esercitazione su Swing.
 
-> If you want to customize the folder structure, open `.vscode/settings.json` and update the related settings there.
+Preparate un breve video di presentazione della vostra soluzione (con una parte per ogni membro del gruppo) e inserite il link insieme al codice.
 
-## Dependency Management
-
-The `JAVA PROJECTS` view allows you to manage your dependencies. More details can be found [here](https://github.com/microsoft/vscode-java-dependency#manage-dependencies).
+In particolare spiegate in maniera chiara come avete gestito l’accesso concorrente alla struttura dati per la gestione degli eventi.
