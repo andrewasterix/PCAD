@@ -14,6 +14,7 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.SwingUtilities;
 
+import data.Data;
 import inteface.ServerInterface;
 import server.logic.Server;
 import server.logic.ServerGUI;
@@ -25,8 +26,9 @@ public class ServerMain {
 
     static Server server;
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception {
         try {
+            Data.main(args);
             startServer();
         } catch (UnknownHostException | RemoteException | InterruptedException e) {
             e.printStackTrace();
