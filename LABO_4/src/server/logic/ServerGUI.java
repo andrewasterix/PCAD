@@ -32,7 +32,7 @@ public class ServerGUI extends JFrame {
         this.server = server;
         this.sem = sem;
 
-        Image img = Toolkit.getDefaultToolkit().getImage("src\\server\\images\\server.png");
+        Image img = Toolkit.getDefaultToolkit().getImage("src\\server\\img\\server.png");
 
         server.setFrame(this);
         this.setTitle("Server");
@@ -86,8 +86,14 @@ public class ServerGUI extends JFrame {
         numeroPostiField.setToolTipText("Numero Posti");
         numeroPostiField.setColumns(25);
 
-        JButton addButton = new JButton("Aggiungi Evento");
+        Image imgAdd = Toolkit.getDefaultToolkit().getImage("src\\server\\img\\event_add.png");
+        imgAdd = imgAdd.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+
+        JButton addButton = new JButton(new ImageIcon(imgAdd));
+        addButton.setText("Aggiungi Evento");
         addButton.setToolTipText("Aggiungi Evento");
+        addButton.setHorizontalTextPosition(SwingConstants.LEADING);
+        addButton.setVerticalTextPosition(SwingConstants.CENTER);
         addButton.setBounds(150, 40, 130, 40);
 
         addButton.addActionListener(new ActionListener() {
@@ -123,8 +129,13 @@ public class ServerGUI extends JFrame {
             }
         });
 
-        JButton removeButton = new JButton("Rimuovi Evento");
+        Image imgRemove = Toolkit.getDefaultToolkit().getImage("src\\server\\img\\event_remove.png");
+        imgRemove = imgRemove.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        JButton removeButton = new JButton(new ImageIcon(imgRemove));
+        removeButton.setText("Rimuovi Evento");
         removeButton.setToolTipText("Rimuovi Evento");
+        removeButton.setHorizontalTextPosition(SwingConstants.LEADING);
+        removeButton.setVerticalTextPosition(SwingConstants.CENTER);
         removeButton.setBounds(290, 63, 130,40);
 
         removeButton.addActionListener(new ActionListener() {
@@ -143,8 +154,13 @@ public class ServerGUI extends JFrame {
             }
         });
 
-        JButton addSeatsButton = new JButton("Aggiungi Posti");
+        Image imgAddSeats = Toolkit.getDefaultToolkit().getImage("src\\server\\img\\ticket_add.png");
+        imgAddSeats = imgAddSeats.getScaledInstance(20, 20, Image.SCALE_SMOOTH);
+        JButton addSeatsButton = new JButton(new ImageIcon(imgAddSeats));
+        addSeatsButton.setText("Aggiungi Posti");
         addSeatsButton.setToolTipText("Aggiungi Posti");
+        addSeatsButton.setHorizontalTextPosition(SwingConstants.LEADING);
+        addSeatsButton.setVerticalTextPosition(SwingConstants.CENTER);
         addSeatsButton.setBounds(150, 85, 130, 40);
 
         addSeatsButton.addActionListener(new ActionListener() {

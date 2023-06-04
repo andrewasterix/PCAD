@@ -29,7 +29,6 @@ public class AddSeatsWorker  extends SwingWorker<Boolean, Void>{
         if (postiLiberi == 0) throw new IllegalArgumentException("Si vuole creare un evento con un numero di posti liberi pari a 0!");
 
         if (nomeEvento == null || nomeEvento.equals("")) throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
-
         
         Evento evento = server.getEventi().get(nomeEvento);
         if(evento == null) return false;
@@ -40,7 +39,7 @@ public class AddSeatsWorker  extends SwingWorker<Boolean, Void>{
     protected void done() {
         try {
             if (!get()) {
-                server.getFrame().setInfoText("<font color=\"red\">Evento " +nomeEvento+ " già presente!</font>");
+                server.getFrame().setInfoText("<font color=\"red\">Evento " +nomeEvento+ " non presente!</font>");
                 return;
             }
         } catch (InterruptedException | ExecutionException e) {

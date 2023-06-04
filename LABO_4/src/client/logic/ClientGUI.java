@@ -3,7 +3,9 @@ package client.logic;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Image;
 import java.awt.Rectangle;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -12,6 +14,7 @@ import java.rmi.RemoteException;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -47,9 +50,12 @@ public class ClientGUI extends JFrame {
 
         server.registerCallBack(client);
         
+        Image img = Toolkit.getDefaultToolkit().getImage("src\\client\\img\\client.png");
+
         setTitle("Client");
         setResizable(false);
         setSize(800, 600);
+        setIconImage(img);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getContentPane().setLayout(null);
 
@@ -107,8 +113,13 @@ public class ClientGUI extends JFrame {
         numeroPostiField.setToolTipText("Numero Posti");
         numeroPostiField.setColumns(25);
 
-        JButton addButton = new JButton("Prenota Evento");
-        addButton.setToolTipText("Aggiungi Evento");
+        Image imgTicket = Toolkit.getDefaultToolkit().getImage("src\\client\\img\\ticket.png");
+        imgTicket = imgTicket.getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        JButton addButton = new JButton(new ImageIcon(imgTicket));
+        addButton.setText("Prenota");
+        addButton.setToolTipText("Prenota");
+        addButton.setHorizontalTextPosition(SwingConstants.LEADING);
+        addButton.setVerticalTextPosition(SwingConstants.CENTER);
         addButton.setBounds(150, 50, 135, 80);
         addButton.addActionListener(new ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
