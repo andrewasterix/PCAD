@@ -5,6 +5,7 @@ import java.util.concurrent.ExecutionException;
 
 import javax.swing.SwingWorker;
 
+import eventi.Evento;
 import server.logic.Server;
 
 public class AddSeatsWorker  extends SwingWorker<Boolean, Void>{
@@ -29,9 +30,10 @@ public class AddSeatsWorker  extends SwingWorker<Boolean, Void>{
 
         if (nomeEvento == null || nomeEvento.equals("")) throw new IllegalArgumentException("Si vuole creare un evento con un nome nullo o vuoto!");
 
-        server.addSeatsEvento(nomeEvento, postiLiberi);
-
-        return true;
+        
+        Evento evento = server.getEventi().get(nomeEvento);
+        if(evento == null) return false;
+        return server.addSeatsEvento(nomeEvento, postiLiberi);
     }
 
     @Override

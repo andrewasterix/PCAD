@@ -60,7 +60,7 @@ public class Server implements ServerInterface {
         }
     }
 
-    public void addSeatsEvento(String nomeEvento, int postiLiberi) throws RemoteException {
+    public boolean addSeatsEvento(String nomeEvento, int postiLiberi) throws RemoteException {
         synchronized (database) {
             if (!database.getEventi().containsKey(nomeEvento))
                 throw new IllegalArgumentException("Si vuole aggiungere posti ad un evento non esistente!");
@@ -75,6 +75,7 @@ public class Server implements ServerInterface {
                 e.printStackTrace();
             }
         }
+        return true;
     }
 
     /* Il Server vuole rimuovere un evento */
