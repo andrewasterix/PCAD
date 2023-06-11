@@ -247,7 +247,7 @@ public class ClientGUI extends JFrame {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
                     eventiList.setModel(model);
-            setInfoText("<font color=\"green\">Eventi aggiornati!</font>");
+                    setInfoText("<font color=\"green\">Eventi aggiornati!</font>");
                 }
             });
         }

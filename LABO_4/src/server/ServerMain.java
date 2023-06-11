@@ -14,7 +14,6 @@ import java.util.concurrent.Semaphore;
 
 import javax.swing.SwingUtilities;
 
-import data.Data;
 import inteface.ServerInterface;
 import server.logic.Server;
 import server.logic.ServerGUI;

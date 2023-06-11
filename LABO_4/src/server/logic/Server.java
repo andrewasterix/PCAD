@@ -145,7 +145,7 @@ public class Server implements ServerInterface {
         if (clients.remove(callbackClient))
             System.out.println("Client rimosso dai CallBack!");
         else
-            System.out.println("Errore nell rimozione del Client dalle CallBack!");
+            System.out.println("Errore nella rimozione del Client dalle CallBack!");
     }
 
     /* Il Server effettua le callBack ai Client in Lista */
