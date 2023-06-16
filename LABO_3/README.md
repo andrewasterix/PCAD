@@ -1,11 +1,14 @@
 # Laboratorio 3 - PCAD
+
 ## Popolo delle Meraviglie : Team 25
+
 - Andrea Franceschetti - 4357070
 - William Chen - 4827847
 - Marco Chen - 4863267
 - Alessio De Vincenzi - 4878315
 
 ## CLASSE JAVA THREAD-SAFE PER LA GESTIONE DI EVENTI
+
 Consideriamo un sistema di gestione di eventi (es concerti, conferenze, ecc).
 
 Si vuole definire una classe Java per garantire l’accesso thread-safe ad una classe Java con metodi per gestire eventi e posti disponibili.
@@ -27,10 +30,13 @@ Una volta definita la classe implementate un programma di test per simulare la c
 - Un thread di tipo UTENTE invia richieste di prenotazione.
 
 ## Note
+
 Nel file `Test.csv` è presente un elenco di eventi che verranno gestiti dai Thread citati precedentemente.
 
 Ogni riga del file in questione si compone:
+
 ```
+
 ...
 TheFlash,647,478,100
 ...
